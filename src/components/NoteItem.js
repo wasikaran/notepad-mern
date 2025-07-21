@@ -1,36 +1,56 @@
-
 import React, { useContext } from 'react';
-import  {ContextNote}  from './ContextNote';
+import { ContextNote } from './ContextNote';
+import { Link } from 'react-router-dom';
+import { Card, Badge } from 'react-bootstrap';
 
 const NoteItem = ({ note, updateNote }) => {
   const { DeleteNote } = useContext(ContextNote);
 
   return (
-    <div className="card my-3">
-      <div className="card-body">
-        <h5 className="card-title text-center">{note.title}</h5>
-        <p className="card-text text-center">{note.description}</p>
-        {note.tags && (
-          <p className="text-muted text-center">
-            <small>Tags: {note.tags}</small>
-          </p>
-        )}
-        <div className="text-center mt-3">
-          <i
-            className="fa-solid fa-trash mx-2 text-center text-danger"
-            onClick={() => DeleteNote(note._id)}
-            style={{ cursor: 'pointer' }}
-            title="Delete Note"
-          ></i>
-          <i
-            className="fa-solid fa-pen-to-square mx-2 text-center text-primary"
-            onClick={() => updateNote(note)}
-            style={{ cursor: 'pointer' }}
-            title="Edit Note"
-          ></i>
+    <Card className="h-100 shadow-sm border-0">
+      <Card.Body className="d-flex flex-column">
+        <div className="d-flex justify-content-between align-items-start mb-2">
+          <Card.Title className="mb-0 text-truncate">{note.title}</Card.Title>
+          {note.tags && (
+            <Badge bg="light" text="dark" className="ms-2">
+              {note.tags}
+            </Badge>
+          )}
         </div>
-      </div>
-    </div>
+        
+        <Card.Text className="flex-grow-1 text-muted">
+          {note.description.length > 100 
+            ? `${note.description.substring(0, 100)}...` 
+            : note.description}
+        </Card.Text>
+        
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          <div>
+            <Link 
+              to={`/note/${note._id}`} 
+              className="btn btn-sm btn-outline-primary me-2"
+              title="View Note"
+            >
+<i class="fa-solid fa-eye"></i>
+            </Link>
+            <button
+              className="btn btn-sm btn-outline-secondary me-2"
+              onClick={() => updateNote(note)}
+              title="Edit Note"
+            >
+              <i className="fas fa-edit"></i>
+            </button>
+            <button
+              className="btn btn-sm btn-outline-danger"
+              onClick={() => DeleteNote(note._id)}
+              title="Delete Note"
+            >
+              <i className="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
 

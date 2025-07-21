@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
-import  {ContextNote}  from './ContextNote';
+import { ContextNote } from './ContextNote';
+import { Card, Form, Button, FloatingLabel } from 'react-bootstrap';
 
 const AddNotes = () => {
     const { AddNotes } = useContext(ContextNote);
@@ -16,16 +17,13 @@ const AddNotes = () => {
     };
 
     return (
-        <div>
-            <h1>Add Note</h1>
-            <div className="container my-3">
-                <form>
-                    <div className="form-group my-3">
-                        <label htmlFor="title">Notes Title</label>
-                        <input
+        <Card className="mb-4 shadow-sm">
+            <Card.Body>
+                <Card.Title className="mb-4">Add New Note</Card.Title>
+                <Form>
+                    <FloatingLabel controlId="title" label="Note Title" className="mb-3">
+                        <Form.Control
                             type="text"
-                            className="form-control"
-                            id="title"
                             name="title"
                             value={note.title}
                             onChange={onChange}
@@ -33,13 +31,12 @@ const AddNotes = () => {
                             minLength={4}
                             required
                         />
-                    </div>
-                    <div className="form-group my-3">
-                        <label htmlFor="description">Description</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="description"
+                    </FloatingLabel>
+
+                    <FloatingLabel controlId="description" label="Description" className="mb-3">
+                        <Form.Control
+                            as="textarea"
+                            style={{ height: '100px' }}
                             name="description"
                             value={note.description}
                             onChange={onChange}
@@ -47,30 +44,28 @@ const AddNotes = () => {
                             minLength={5}
                             required
                         />
-                    </div>
-                    <div className="form-group my-3">
-                        <label htmlFor="tags">Tags</label>
-                        <input
+                    </FloatingLabel>
+
+                    <FloatingLabel controlId="tags" label="Tags (optional)" className="mb-3">
+                        <Form.Control
                             type="text"
-                            className="form-control"
-                            id="tags"
                             name="tags"
                             value={note.tags}
                             onChange={onChange}
                             placeholder="Enter tags"
                         />
-                    </div>
-                    <button 
+                    </FloatingLabel>
+
+                    <Button 
+                        variant="primary"
                         disabled={note.title.length < 4 || note.description.length < 5} 
-                        type="submit" 
-                        onClick={handleClick} 
-                        className="btn btn-primary"
+                        onClick={handleClick}
                     >
-                        Submit
-                    </button>
-                </form>
-            </div>
-        </div>
+                        Add Note
+                    </Button>
+                </Form>
+            </Card.Body>
+        </Card>
     );
 };
 
